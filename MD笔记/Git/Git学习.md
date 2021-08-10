@@ -87,7 +87,7 @@ git reflog
 
 Git的版本库里存了很多东西，其中最重要的就是称为stage（或者叫index）的暂存区，还有Git为我们自动创建的第一个分支`master`，以及指向`master`的一个指针叫`HEAD`。
 
-![image-20210809164710648](C:\Users\李大胖\AppData\Roaming\Typora\typora-user-images\image-20210809164710648.png)
+![image](https://user-images.githubusercontent.com/88662273/128891784-f044410f-d0a9-4a17-a122-673fa85ec895.png)
 
 把文件往Git版本库里添加的时候，是分两步执行的：
 
