@@ -126,5 +126,112 @@ ssh-keygen -t rsa -C "youremail@example.com"
 
 ### 添加远程库
 
+1. 登录Github，然后右上角点击"+"找到"new repository"，创建一个新的仓库，在`epository name`填入自己的仓库名称，然后点击"Create repository"就成功创建了一个新的Git仓库
 
+2. 根据Github的提示，在本地仓库下运行命令
+
+   ```bash
+   git remote add origin git@github.com:yourname/xxx.git
+   ```
+
+3. 添加后，远程库的名字就是`origin`，这是Git默认的叫法，也可以改成别的，但是`origin`这个名字一看就知道是远程库。
+
+4. 下一步，就可以把本地库的所有内容推送到远程库
+
+   ```bash
+   git push -u origin master
+   ```
+
+   把本地库的内容推送到远程，用`git push`命令，实际上是把当前分支`master`推送到远程。
+
+   由于远程库是空的，我们第一次推送`master`分支时，加上了`-u`参数，Git不但会把本地的`master`分支内容推送的远程新的`master`分支，还会把本地的`master`分支和远程的`master`分支关联起来，在以后的推送或者拉取时就可以简化命令。
+
+   从现在起，只要本地作了提交，就可以通过命令：
+
+   ```bash
+   git push origin master
+   ```
+
+### 删除远程库
+
+如果添加的时候地址写错了，或者就是想删除远程库，可以用`git remote rm <name>`命令。使用前，建议先用`git remote -v`查看远程库信息：
+
+然后，根据名字删除，比如删除`origin`：
+
+```bash
+git remote rm origin
+```
+
+此处的“删除”其实是解除了本地和远程的绑定关系，并不是物理上删除了远程库。远程库本身并没有任何改动。要真正删除远程库，需要登录到GitHub，在后台页面找到删除按钮再删除。
+
+### 从远程库克隆
+
+要克隆一个仓库，首先必须知道仓库的地址，然后使用`git clone`命令克隆。
+
+Git支持多种协议，包括`https`，但`ssh`协议速度最快。
+
+## 分支管理
+
+### 创建与合并分支
+
+创建分支
+
+```bash
+git branch <branchname>
+```
+
+查看本地分支
+
+```bash
+git branch
+```
+
+查看所有分支，包括本地和在线分支
+
+```bash
+git branch -a
+```
+
+切换分支
+
+```bash
+git switch <branchname>
+或者
+git checkout <branchname>
+```
+
+新建分支后切换分支可以用一个语句
+
+```bash
+git checkout -b <branchname>
+# git checkout 命令加上 -b 参数表示创建并切换
+```
+
+合并某分支到当前分支
+
+```bash
+git merge <branchname>
+```
+
+删除分支
+
+```bash
+git branch -d <branchname>
+```
+
+### 分支策略
+
+在实际开发中，我们应该按照几个基本原则进行分支管理：
+
+首先，`master`分支应该是非常稳定的，也就是仅用来发布新版本，平时不能在上面干活；
+
+那在哪干活呢？干活都在`dev`分支上，也就是说，`dev`分支是不稳定的，到某个时候，比如1.0版本发布时，再把`dev`分支合并到`master`上，在`master`分支发布1.0版本；
+
+你和你的小伙伴们每个人都在`dev`分支上干活，每个人都有自己的分支，时不时地往`dev`分支上合并就可以了。
+
+所以，团队合作的分支看起来就像这样：
+
+![git-br-policy](https://www.liaoxuefeng.com/files/attachments/919023260793600/0)
+
+合并分支时，加上`--no-ff`参数就可以用普通模式合并，合并后的历史有分支，能看出来曾经做过合并，而`fast forward`合并就看不出来曾经做过合并。
 
