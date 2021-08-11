@@ -261,3 +261,173 @@ git stash list
 git cherry-pick <commitid>
 ```
 
+### feature分支
+
+开发一个新feature，最好新建一个分支；
+
+丢弃一个没有被合并的分支，可以强行删除
+
+```bash
+git branch -D <name>
+```
+
+## 多人协作
+
+查看远程库的信息
+
+```bash
+git remote
+```
+
+或者，显示更详细的信息
+
+```bash
+git remote -v
+```
+
+### 推送分支
+
+推送分支，就是把该分支上的所有本地提交推送到远程库。推送时，要指定本地分支，这样，Git就会把该分支推送到远程库对应的远程分支上：
+
+```bash
+git push origin <branchname>
+```
+
+但是，并不是一定要把本地分支往远程推送，那么，哪些分支需要推送，哪些不需要呢？
+
+- master分支是主分支，因此要时刻与远程同步；
+
+- dev分支是开发分支，团队所有成员都需要在上面工作，所以也需要与远程同步；
+
+- bug分支只用于在本地修复bug，就没必要推到远程了，除非老板要看看你每周到底修复了几个bug；
+
+- feature分支是否推到远程，取决于你是否和你的小伙伴合作在上面开发。
+
+在本地创建和远程分支对应的分支
+
+```bash
+git checkout -b branch-name origin/branch-name
+```
+
+建立本地分支和远程分支的关联
+
+```bash
+git branch --set-upstream branch-name origin/branch-name
+```
+
+### rebase
+
+rebase操作可以把本地未push的分叉提交历史整理成直线；
+
+rebase的目的是使得我们在查看历史提交的变化时更容易，因为分叉的提交需要三方对比。
+
+## 标签管理
+
+### 创建标签
+
+切换到需要打标签的分支，然后输入
+
+```bash
+git tag <name>
+```
+
+查看所有标签
+
+```bash
+git tag
+```
+
+给历史提交打标签
+
+```bash
+git tag <name> <commit>
+```
+
+查看某个标签信息
+
+```
+git show <tagname>
+```
+
+### 操作标签
+
+删除标签
+
+```bash
+git tag -d <tag-name>
+```
+
+推送某个标签到远程
+
+```bash
+git push origin <tagname>
+```
+
+一次性推送全部尚未推送到远程的本地标签
+
+```bash
+git push origin --tags
+```
+
+删除一个本地标签
+
+```bash
+git tag -d <tagname>
+```
+
+删除一个远程标签
+
+```bash
+git push origin :refs/tags/<tagname>
+```
+
+## 自定义Git
+
+让Git显示颜色
+
+```bash
+git config --global color.ui true
+```
+
+### 忽略特殊文件
+
+忽略文件的原则是：
+
+1. 忽略操作系统自动生成的文件，比如缩略图等；
+2. 忽略编译生成的中间文件、可执行文件等，也就是如果一个文件是通过另一个文件自动生成的，那自动生成的文件就没必要放进版本库，比如Java编译产生的.class文件；
+3. 忽略你自己的带有敏感信息的配置文件，比如存放口令的配置文件。
+
+强制添加文件到Git,使用`-f`
+
+```bash
+git add -f App.class
+```
+
+检查规则错误，使用`git check-ignore`检查
+
+```bash
+git check-ignore -v App.class
+```
+
+编写规则排除部分文件
+
+```bash
+# 排除所有.开头的隐藏文件:
+.*
+# 排除所有.class文件:
+*.class
+```
+
+把指定文件排除在.gitignore规则外的写法就是!+文件名，所以，只需把例外文件添加进去即可。
+
+### 配置别名
+
+比如使用`st`表示`status`
+
+```bash
+git config --global alias.st status
+```
+
+别名后面可以跟多个命令
+
+
