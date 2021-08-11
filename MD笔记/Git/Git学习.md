@@ -235,3 +235,29 @@ git branch -d <branchname>
 
 合并分支时，加上`--no-ff`参数就可以用普通模式合并，合并后的历史有分支，能看出来曾经做过合并，而`fast forward`合并就看不出来曾经做过合并。
 
+### bug分支
+
+将工作现场“储藏”下来，相当于快照
+
+```bash
+git stash
+```
+
+查看暂存的工作空间
+
+```bash
+git stash list
+```
+
+恢复工作现场，恢复有两种办法
+
+1. 一是用git stash apply恢复，但是恢复后，stash内容并不删除，你需要用git stash drop来删除；
+
+2. 另一种方式是用git stash pop，恢复的同时把stash内容也删了。
+
+复制一个特定的提交到当前分支
+
+```bash
+git cherry-pick <commitid>
+```
+
